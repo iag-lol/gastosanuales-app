@@ -8,14 +8,17 @@ import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
 import { Switch } from "@/components/ui/Switch";
 import { useCreateDebt } from "@/hooks/useDebtsData";
-import { CURRENCIES } from "@/utils/constants";
 
 const debtSchema = z
   .object({
     name: z.string().min(3, "Pon un nombre descriptivo"),
     description: z.string().optional(),
-    amount: z.coerce.number().min(1, "Ingresa un monto válido"),
-    currency: z.string().min(2),
+    amount: z.coerce
+      .number({
+        invalid_type_error: "Ingresa un monto válido"
+      })
+      .int("Solo números enteros")
+      .min(1, "Ingresa un monto válido"),
     category: z.string().optional(),
     frequency: z.enum(["monthly", "biweekly", "custom"]),
     due_day_type: z.enum(["end_of_month", "quincena", "custom"]),
@@ -64,7 +67,6 @@ export const DebtCreationForm = ({ onCompleted }: DebtCreationFormProps) => {
   } = useForm<DebtFormValues>({
     resolver: zodResolver(debtSchema),
     defaultValues: {
-      currency: "MXN",
       frequency: "monthly",
       due_day_type: "end_of_month",
       start_date: new Date().toISOString().slice(0, 10),
@@ -84,8 +86,8 @@ export const DebtCreationForm = ({ onCompleted }: DebtCreationFormProps) => {
       {
         name: values.name,
         description: values.description,
-        amount: values.amount,
-        currency: values.currency,
+        amount: Math.round(values.amount),
+        currency: "CLP",
         category: values.category,
         frequency: values.frequency,
         due_day_type: values.due_day_type,
@@ -120,18 +122,11 @@ export const DebtCreationForm = ({ onCompleted }: DebtCreationFormProps) => {
         <Input
           label="Monto"
           type="number"
-          inputMode="decimal"
-          step="0.01"
+          inputMode="numeric"
+          step="1"
           {...register("amount", { valueAsNumber: true })}
           error={errors.amount?.message}
-        />
-        <Select
-          label="Moneda"
-          options={CURRENCIES.map((currency) => ({
-            value: currency.code,
-            label: currency.label
-          }))}
-          {...register("currency")}
+          hint="Ingresa el monto en pesos chilenos, sin decimales"
         />
         <Input
           label="Fecha de inicio"

@@ -8,8 +8,8 @@ export interface Debt {
   id: string;
   name: string;
   description?: string;
-  amount: number;
-  currency: string;
+  amount: number | string;
+  currency: "CLP";
   category?: string;
   due_day_type: DueDayType;
   custom_due_day?: number;

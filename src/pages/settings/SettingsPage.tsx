@@ -8,7 +8,7 @@ import { Switch } from "@/components/ui/Switch";
 import { useSupabase } from "@/context/SupabaseProvider";
 
 export const SettingsPage = () => {
-  const { envMissing } = useSupabase();
+  const { url, anonKey, usingDefaults } = useSupabase();
   const [notifyOverdue, setNotifyOverdue] = useState(true);
   const [notifyUpcoming, setNotifyUpcoming] = useState(true);
   const [dailyDigest, setDailyDigest] = useState(false);
@@ -35,20 +35,26 @@ export const SettingsPage = () => {
               <span className="font-semibold text-primary-600"> gastosanuales_</span> para que el
               sistema pueda sincronizar tus datos.
             </p>
+            {usingDefaults && (
+              <p className="mt-2 rounded-xl border border-primary-100 bg-primary-50/60 px-3 py-2 text-xs text-primary-600">
+                Esta instalación utiliza las credenciales preconfiguradas en el código. Puedes
+                reemplazarlas creando tu propio proyecto en Supabase y actualizando las variables de
+                entorno.
+              </p>
+            )}
           </div>
           <div className="grid gap-4 md:grid-cols-2">
             <Input
               label="VITE_SUPABASE_URL"
-              placeholder="https://xxxx.supabase.co"
-              defaultValue={envMissing ? "" : "Configurada"}
-              readOnly={!envMissing}
+              value={url ?? ""}
+              readOnly
+              className="font-mono text-xs"
             />
             <Input
               label="VITE_SUPABASE_ANON_KEY"
-              type="password"
-              placeholder="Coloca la clave pública"
-              defaultValue={envMissing ? "" : "••••••••••"}
-              readOnly={!envMissing}
+              value={anonKey ?? ""}
+              readOnly
+              className="font-mono text-xs"
             />
           </div>
           <p className="mt-4 text-xs text-slate-500">

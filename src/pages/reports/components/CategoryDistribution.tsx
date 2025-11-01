@@ -50,7 +50,7 @@ export const CategoryDistribution = ({ data, loading }: CategoryDistributionProp
                 ))}
               </Pie>
               <Tooltip
-                formatter={(value: number) => formatCurrency(value, "MXN")}
+                formatter={(value: number) => formatCurrency(value)}
                 contentStyle={{
                   borderRadius: "12px",
                   borderColor: "#94a3b8",
@@ -77,7 +77,7 @@ export const CategoryDistribution = ({ data, loading }: CategoryDistributionProp
                 </div>
               </div>
               <span className="text-sm font-semibold text-slate-700">
-                {formatCurrency(item.amount, "MXN")}
+                {formatCurrency(item.amount)}
               </span>
             </li>
           ))}

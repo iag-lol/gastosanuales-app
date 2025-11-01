@@ -27,9 +27,10 @@ const buildProjectionData = (debts: Debt[]) => {
   });
 
   debts.forEach((debt) => {
+    const amount = typeof debt.amount === "string" ? parseFloat(debt.amount) : debt.amount;
     months.forEach((month) => {
       // Simple projection: add full amount each period
-      month.amount += debt.frequency === "biweekly" ? debt.amount / 2 : debt.amount;
+      month.amount += debt.frequency === "biweekly" ? amount / 2 : amount;
     });
   });
 
@@ -71,11 +72,12 @@ export const ProjectionChart = ({ debts, loading }: ProjectionChartProps) => (
               axisLine={false}
               tick={{ fontSize: 12, fill: "#475569" }}
               tickFormatter={(value) =>
-                new Intl.NumberFormat("es-MX", {
+                new Intl.NumberFormat("es-CL", {
                   style: "currency",
-                  currency: "MXN",
+                  currency: "CLP",
+                  minimumFractionDigits: 0,
                   maximumFractionDigits: 0
-                }).format(value)
+                }).format(Math.round(value))
               }
             />
             <Tooltip
@@ -86,10 +88,12 @@ export const ProjectionChart = ({ debts, loading }: ProjectionChartProps) => (
                 boxShadow: "0 10px 30px rgba(15,23,42,0.08)"
               }}
               formatter={(value: number) =>
-                new Intl.NumberFormat("es-MX", {
+                new Intl.NumberFormat("es-CL", {
                   style: "currency",
-                  currency: "MXN"
-                }).format(value)
+                  currency: "CLP",
+                  minimumFractionDigits: 0,
+                  maximumFractionDigits: 0
+                }).format(Math.round(value))
               }
             />
             <Area

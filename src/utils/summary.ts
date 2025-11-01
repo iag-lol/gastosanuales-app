@@ -6,16 +6,18 @@ import { computeNextDueDate } from "./dates";
 export const computeDebtSummary = (debts: Debt[]): DebtSummary => {
   const summary = debts.reduce(
     (acc, debt) => {
-      acc.total_amount += debt.amount;
+      const amount = typeof debt.amount === "string" ? parseFloat(debt.amount) : debt.amount;
+
+      acc.total_amount += amount;
 
       if (debt.status === "paid") {
-        acc.total_paid += debt.amount;
+        acc.total_paid += amount;
       }
       if (debt.status === "pending" || debt.status === "postponed") {
-        acc.total_pending += debt.amount;
+        acc.total_pending += amount;
       }
       if (debt.status === "overdue") {
-        acc.total_overdue += debt.amount;
+        acc.total_overdue += amount;
       }
 
       const nextDue = debt.next_due_date
@@ -24,7 +26,7 @@ export const computeDebtSummary = (debts: Debt[]): DebtSummary => {
 
       if (!acc.next_due_date || nextDue < parseISO(acc.next_due_date)) {
         acc.next_due_date = nextDue.toISOString();
-        acc.next_due_amount = debt.amount;
+        acc.next_due_amount = amount;
       }
 
       const months = Math.max(
@@ -35,9 +37,8 @@ export const computeDebtSummary = (debts: Debt[]): DebtSummary => {
         )
       );
 
-      acc.monthly_projection += debt.frequency === "biweekly" ? debt.amount / 2 : debt.amount;
-      acc.biweekly_projection +=
-        debt.frequency === "biweekly" ? debt.amount : Math.round(debt.amount / 2);
+      acc.monthly_projection += debt.frequency === "biweekly" ? amount / 2 : amount;
+      acc.biweekly_projection += debt.frequency === "biweekly" ? amount : Math.round(amount / 2);
 
       acc.installments += debt.total_installments ?? months;
       acc.installmentsPaid += debt.paid_installments;

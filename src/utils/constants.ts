@@ -9,14 +9,6 @@ export const NAV_ITEMS = [
   { label: "Ajustes", icon: Settings, path: "/ajustes" }
 ];
 
-export const CURRENCIES = [
-  { code: "MXN", label: "Peso mexicano" },
-  { code: "USD", label: "Dólar estadounidense" },
-  { code: "EUR", label: "Euro" },
-  { code: "COP", label: "Peso colombiano" },
-  { code: "CLP", label: "Peso chileno" }
-];
-
 export const DEBT_STATUSES = [
   { value: "pending", label: "Pendiente" },
   { value: "paid", label: "Pagada" },

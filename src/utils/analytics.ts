@@ -7,9 +7,10 @@ export const groupDebtsByCategory = (debts: Debt[]) => {
   const map = new Map<string, { amount: number; count: number }>();
 
   debts.forEach((debt) => {
+    const amount = typeof debt.amount === "string" ? parseFloat(debt.amount) : debt.amount;
     const key = debt.category || "Sin categoría";
     const record = map.get(key) ?? { amount: 0, count: 0 };
-    record.amount += debt.amount;
+    record.amount += amount;
     record.count += 1;
     map.set(key, record);
   });
@@ -30,10 +31,12 @@ export const buildTrendSeries = (debts: Debt[]) => {
 
   debts.forEach((debt) => {
     months.forEach((month) => {
+      const amount = typeof debt.amount === "string" ? parseFloat(debt.amount) : debt.amount;
+
       if (debt.status === "paid") {
-        month.amount += debt.amount;
+        month.amount += amount;
       } else if (debt.status === "pending" && month.key === format(new Date(), "yyyy-MM")) {
-        month.amount += debt.amount / 2;
+        month.amount += amount / 2;
       }
     });
   });

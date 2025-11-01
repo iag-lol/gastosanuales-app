@@ -40,9 +40,7 @@ export const SummaryBreakdown = ({ data, loading }: SummaryBreakdownProps) => (
               <tr key={item.category} className="text-slate-600">
                 <td className="px-4 py-3 font-semibold text-slate-900">{item.category}</td>
                 <td className="px-4 py-3">{item.count}</td>
-                <td className="px-4 py-3 text-primary-600">
-                  {formatCurrency(item.amount, "MXN")}
-                </td>
+                <td className="px-4 py-3 text-primary-600">{formatCurrency(item.amount)}</td>
               </tr>
             ))}
           </tbody>

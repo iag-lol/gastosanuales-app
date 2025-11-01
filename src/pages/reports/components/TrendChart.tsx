@@ -48,10 +48,10 @@ export const TrendChart = ({ data, loading }: TrendChartProps) => (
               tickLine={false}
               axisLine={false}
               tick={{ fontSize: 12, fill: "#475569" }}
-              tickFormatter={(value) => formatCurrency(value, "MXN")}
+              tickFormatter={(value) => formatCurrency(value)}
             />
             <Tooltip
-              formatter={(value: number) => formatCurrency(value, "MXN")}
+              formatter={(value: number) => formatCurrency(value)}
               contentStyle={{
                 borderRadius: "12px",
                 borderColor: "#cbd5f5",

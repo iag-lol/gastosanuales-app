@@ -64,9 +64,7 @@ export const DebtCollection = ({ debts, loading, onSelect }: DebtCollectionProps
               </button>
             </header>
             <div>
-              <p className="text-2xl font-bold text-slate-900">
-                {formatCurrency(debt.amount, debt.currency)}
-              </p>
+              <p className="text-2xl font-bold text-slate-900">{formatCurrency(debt.amount)}</p>
               <p className="text-xs text-slate-500">
                 Próximo pago:{" "}
                 {formatFullDate(

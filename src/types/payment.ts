@@ -3,7 +3,7 @@ export type PaymentStatus = "scheduled" | "paid" | "postponed" | "skipped";
 export interface Payment {
   id: string;
   debt_id: string;
-  amount: number;
+  amount: number | string;
   scheduled_for: string;
   paid_at?: string;
   status: PaymentStatus;

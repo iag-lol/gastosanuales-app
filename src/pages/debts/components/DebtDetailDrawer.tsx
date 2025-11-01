@@ -53,9 +53,7 @@ export const DebtDetailDrawer = ({ debt, onClose }: DebtDetailDrawerProps) => {
         <section className="grid grid-cols-2 gap-4 rounded-3xl border border-slate-200 bg-slate-50/80 p-4">
           <div>
             <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Monto</p>
-            <p className="text-xl font-semibold text-slate-900">
-              {formatCurrency(debt.amount, debt.currency)}
-            </p>
+            <p className="text-xl font-semibold text-slate-900">{formatCurrency(debt.amount)}</p>
           </div>
           <div>
             <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Estado</p>
@@ -98,7 +96,7 @@ export const DebtDetailDrawer = ({ debt, onClose }: DebtDetailDrawerProps) => {
                 >
                   <div>
                     <p className="text-sm font-semibold text-slate-900">
-                      {formatCurrency(payment.amount, debt.currency)}
+                      {formatCurrency(payment.amount)}
                     </p>
                     <p className="text-xs text-slate-500">
                       Programado para {formatFullDate(payment.scheduled_for)}

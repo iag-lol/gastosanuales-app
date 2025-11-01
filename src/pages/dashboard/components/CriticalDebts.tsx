@@ -63,8 +63,7 @@ export const CriticalDebts = ({ debts, loading }: CriticalDebtsProps) => {
                 <div>
                   <p className="text-sm font-semibold text-slate-900">{debt.name}</p>
                   <p className="text-xs text-slate-500">
-                    {formatCurrency(debt.amount, debt.currency)} · Vence{" "}
-                    {formatFullDate(health.nextDueDate.toISOString())}
+                    {formatCurrency(debt.amount)} · Vence {formatFullDate(health.nextDueDate.toISOString())}
                   </p>
                 </div>
               </div>

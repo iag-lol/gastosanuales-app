@@ -3,12 +3,17 @@ import { es } from "date-fns/locale";
 
 import type { Debt, DueDayType } from "@/types/debt";
 
-export const formatCurrency = (amount: number, currency = "USD") =>
-  new Intl.NumberFormat("es-MX", {
+export const formatCurrency = (amount: number | string) => {
+  const parsed = typeof amount === "string" ? parseFloat(amount) : amount;
+  const safeAmount = Number.isFinite(parsed) ? Math.round(parsed) : 0;
+
+  return new Intl.NumberFormat("es-CL", {
     style: "currency",
-    currency,
-    minimumFractionDigits: 2
-  }).format(amount);
+    currency: "CLP",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0
+  }).format(safeAmount);
+};
 
 export const formatShortDate = (iso: string) => format(parseISO(iso), "dd MMM", { locale: es });
 

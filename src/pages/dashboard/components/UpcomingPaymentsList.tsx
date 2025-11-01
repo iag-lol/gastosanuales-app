@@ -38,11 +38,10 @@ export const UpcomingPaymentsList = ({ payments, loading }: UpcomingPaymentsList
             className="flex items-center justify-between rounded-2xl border border-slate-200 bg-white/70 px-4 py-3 shadow-sm transition hover:border-primary-200 hover:bg-primary-50/60"
           >
             <div>
-              <p className="text-sm font-semibold text-slate-900">
-                {formatCurrency(payment.amount, "MXN")}
-              </p>
+              <p className="text-sm font-semibold text-slate-900">{formatCurrency(payment.amount)}</p>
               <p className="text-xs text-slate-500">
-                {formatFullDate(payment.scheduled_for)} · {payment.status === "postponed" ? "Postergado" : "Programado"}
+                {formatFullDate(payment.scheduled_for)} ·{" "}
+                {payment.status === "postponed" ? "Postergado" : "Programado"}
               </p>
             </div>
             <ChevronRight className="h-5 w-5 text-slate-300" />

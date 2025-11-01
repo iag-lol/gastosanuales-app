@@ -10,6 +10,7 @@ Aplicación web moderna para el control de deudas y gastos mensuales, optimizada
 - **Alertas en el dispositivo** a través de notificaciones locales y recordatorios configurables desde Supabase.
 - **Experiencia responsive**: barra lateral en escritorio y navegación inferior estilo app móvil.
 - **Integración con Supabase** usando tablas con prefijo `gastosanuales_` para deudas, pagos y recordatorios.
+- **Moneda única**: todos los montos se gestionan en pesos chilenos (CLP) sin decimales.
 
 ## Requisitos
 
@@ -30,6 +31,8 @@ Crea un archivo `.env.local` en la raíz del proyecto con las credenciales públ
 VITE_SUPABASE_URL="https://TU-PROYECTO.supabase.co"
 VITE_SUPABASE_ANON_KEY="tu-clave-anon"
 ```
+
+> Nota: el código incluye de forma predeterminada la conexión al proyecto Supabase `tcmtxvuucjttngcazgff`. Puedes usarlo tal cual o reemplazarlo creando tu propio proyecto y definiendo estas variables.
 
 ## Scripts disponibles
 
@@ -54,7 +57,8 @@ Ejecuta el contenido de [`supabase/schema.sql`](supabase/schema.sql) en tu proye
 | Campo | Tipo | Descripción |
 | --- | --- | --- |
 | `name` | text | Nombre descriptivo de la deuda |
-| `amount` | numeric(12,2) | Importe total del pago periódico |
+| `amount` | numeric(12,0) | Importe total en pesos chilenos (sin decimales) |
+| `currency` | text | Siempre `CLP` |
 | `frequency` | text | `monthly`, `biweekly` o `custom` |
 | `due_day_type` | text | `end_of_month`, `quincena`, `custom` |
 | `custom_due_day` | integer | Día específico (1-31) cuando aplica |
@@ -67,6 +71,7 @@ Ejecuta el contenido de [`supabase/schema.sql`](supabase/schema.sql) en tu proye
 | Campo | Tipo | Descripción |
 | --- | --- | --- |
 | `debt_id` | uuid (FK) | Relación con `gastosanuales_deudas` |
+| `amount` | numeric(12,0) | Monto programado (CLP) |
 | `scheduled_for` | date | Fecha programada del pago |
 | `paid_at` | timestamptz | Fecha/hora real del pago |
 | `status` | text | `scheduled`, `paid`, `postponed`, `skipped` |

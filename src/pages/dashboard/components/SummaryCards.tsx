@@ -46,11 +46,9 @@ export const SummaryCards = ({ summary, loading }: SummaryCardsProps) => {
           <span className="text-sm font-semibold uppercase tracking-[0.25em] text-primary-500">
             Total de deudas
           </span>
-          <p className="text-3xl font-bold text-slate-900">
-            {formatCurrency(summary.total_amount, "MXN")}
-          </p>
+          <p className="text-3xl font-bold text-slate-900">{formatCurrency(summary.total_amount)}</p>
           <p className="text-sm text-slate-500">
-            {formatCurrency(summary.total_pending + summary.total_overdue, "MXN")} por pagar
+            {formatCurrency(summary.total_pending + summary.total_overdue)} por pagar
           </p>
         </div>
       </Card>
@@ -60,12 +58,8 @@ export const SummaryCards = ({ summary, loading }: SummaryCardsProps) => {
           <span className="text-sm font-semibold uppercase tracking-[0.25em] text-primary-500">
             Deudas pendientes
           </span>
-          <p className="text-3xl font-bold text-amber-600">
-            {formatCurrency(summary.total_pending, "MXN")}
-          </p>
-          <p className="text-sm text-slate-500">
-            {formatCurrency(summary.total_overdue, "MXN")} en mora
-          </p>
+          <p className="text-3xl font-bold text-amber-600">{formatCurrency(summary.total_pending)}</p>
+          <p className="text-sm text-slate-500">{formatCurrency(summary.total_overdue)} en mora</p>
         </div>
       </Card>
 
@@ -75,10 +69,10 @@ export const SummaryCards = ({ summary, loading }: SummaryCardsProps) => {
             Proyección mensual
           </span>
           <p className="text-3xl font-bold text-primary-600">
-            {formatCurrency(summary.monthly_projection, "MXN")}
+            {formatCurrency(summary.monthly_projection)}
           </p>
           <p className="text-sm text-slate-500">
-            {formatCurrency(summary.biweekly_projection, "MXN")} cada quincena
+            {formatCurrency(summary.biweekly_projection)} cada quincena
           </p>
         </div>
       </Card>
@@ -89,9 +83,7 @@ export const SummaryCards = ({ summary, loading }: SummaryCardsProps) => {
             Próximo vencimiento
           </span>
           <p className="text-3xl font-bold text-slate-900">
-            {summary.next_due_amount
-              ? formatCurrency(summary.next_due_amount, "MXN")
-              : "Sin datos"}
+            {summary.next_due_amount ? formatCurrency(summary.next_due_amount) : "Sin datos"}
           </p>
           <p className="text-sm text-slate-500">
             {projectionDate ? `Fecha: ${projectionDate}` : "Crea una deuda para comenzar"}
