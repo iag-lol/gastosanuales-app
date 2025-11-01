@@ -5,6 +5,7 @@ import { GlobalToaster } from "@/components/ui/Toaster";
 import { DebtsProvider } from "@/context/DebtsProvider";
 import { DashboardPage } from "@/pages/dashboard/DashboardPage";
 import { DebtsPage } from "@/pages/debts/DebtsPage";
+import { UtilitiesPage } from "@/pages/utilities/UtilitiesPage";
 import { ReportsPage } from "@/pages/reports/ReportsPage";
 import { SettingsPage } from "@/pages/settings/SettingsPage";
 import { SupabaseProvider } from "@/context/SupabaseProvider";
@@ -16,6 +17,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<DashboardPage />} />
           <Route path="/deudas" element={<DebtsPage />} />
+          <Route path="/servicios" element={<UtilitiesPage />} />
           <Route path="/informes" element={<ReportsPage />} />
           <Route path="/ajustes" element={<SettingsPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />

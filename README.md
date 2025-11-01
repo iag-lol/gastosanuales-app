@@ -11,6 +11,7 @@ Aplicación web moderna para el control de deudas y gastos mensuales, optimizada
 - **Experiencia responsive**: barra lateral en escritorio y navegación inferior estilo app móvil.
 - **Integración con Supabase** usando tablas con prefijo `gastosanuales_` para deudas, pagos y recordatorios.
 - **Moneda única**: todos los montos se gestionan en pesos chilenos (CLP) sin decimales.
+- **Servicios variables inteligentes**: controla agua, luz, gas e internet con métricas de consumo, proyecciones y recomendaciones automáticas.
 
 ## Requisitos
 
@@ -48,6 +49,8 @@ Ejecuta el contenido de [`supabase/schema.sql`](supabase/schema.sql) en tu proye
 - `gastosanuales_deudas`: almacena la definición de cada deuda.
 - `gastosanuales_pagos`: registra pagos programados y ejecutados.
 - `gastosanuales_recordatorios`: schedulers para alertas.
+- `gastosanuales_servicios`: catálogo de servicios variables (agua, luz, gas, internet, etc.).
+- `gastosanuales_servicios_mediciones`: lecturas de consumo y montos asociados a cada servicio.
 - Función `gastosanuales_increment_instalment(debt_identifier uuid)` para aumentar cuotas pagadas al registrar un pago.
 
 ### Columnas clave
@@ -83,6 +86,28 @@ Ejecuta el contenido de [`supabase/schema.sql`](supabase/schema.sql) en tu proye
 | `debt_id` | uuid (FK) | Referencia a la deuda |
 | `fire_at` | timestamptz | Momento del recordatorio |
 | `kind` | text | `upcoming`, `overdue`, `postponed`, `summary` |
+
+**`gastosanuales_servicios`**
+
+| Campo | Tipo | Descripción |
+| --- | --- | --- |
+| `name` | text | Nombre del servicio (ej. Agua potable) |
+| `kind` | text | Clasificación (`agua`, `luz`, `gas`, `internet`, `otro`) |
+| `unit` | text | Unidad de consumo (m³, kWh, Mbps, etc.) |
+| `rate_per_unit` | numeric(12,2) | Tarifa de referencia por unidad |
+| `goal_monthly_budget` | numeric(12,0) | Presupuesto objetivo mensual |
+| `alert_threshold` | integer | % de desviación para activar alertas |
+
+**`gastosanuales_servicios_mediciones`**
+
+| Campo | Tipo | Descripción |
+| --- | --- | --- |
+| `service_id` | uuid (FK) | Servicio asociado |
+| `period_start` | date | Fecha de inicio del periodo facturado |
+| `period_end` | date | Fecha de término del periodo |
+| `units_used` | numeric(12,2) | Consumo registrado en unidades |
+| `amount` | numeric(12,0) | Total facturado en CLP |
+| `status` | text | `estimated` o `confirmed` |
 
 ## Flujo general de datos
 

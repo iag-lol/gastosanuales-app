@@ -88,7 +88,7 @@ export const AppLayout = ({ children }: PropsWithChildren) => {
         )}
         <main className="flex flex-1 flex-col gap-6 px-4 py-6 md:px-8">{children}</main>
         <nav className="sticky bottom-0 z-40 border-t border-slate-200 bg-white/90 px-2 py-2 backdrop-blur lg:hidden">
-          <ul className="grid grid-cols-4 gap-1">
+          <ul className="grid grid-cols-5 gap-1">
             {NAV_ITEMS.map((item) => {
               const isActive = pathname === item.path;
               return (

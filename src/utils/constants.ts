@@ -1,10 +1,11 @@
-import { Home, Wallet, BarChart3, Settings } from "lucide-react";
+import { Home, Wallet, BarChart3, Settings, Droplets } from "lucide-react";
 
 export const MOBILE_NAV_HEIGHT = 72;
 
 export const NAV_ITEMS = [
   { label: "Inicio", icon: Home, path: "/" },
   { label: "Deudas", icon: Wallet, path: "/deudas" },
+  { label: "Servicios", icon: Droplets, path: "/servicios" },
   { label: "Informes", icon: BarChart3, path: "/informes" },
   { label: "Ajustes", icon: Settings, path: "/ajustes" }
 ];

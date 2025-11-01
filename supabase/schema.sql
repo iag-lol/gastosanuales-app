@@ -87,3 +87,46 @@ begin
   where id = debt_identifier;
 end;
 $$;
+
+create table if not exists public.gastosanuales_servicios (
+  id uuid primary key default uuid_generate_v4(),
+  name text not null,
+  kind text not null default 'otro',
+  unit text not null default 'unidad',
+  rate_per_unit numeric(12, 2),
+  goal_monthly_budget numeric(12, 0),
+  alert_threshold integer,
+  auto_estimate boolean not null default true,
+  color text,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create index if not exists idx_gastosanuales_servicios_kind
+  on public.gastosanuales_servicios (kind);
+
+create trigger trg_gastosanuales_servicios_updated_at
+before update on public.gastosanuales_servicios
+for each row
+execute procedure public.update_updated_at_column();
+
+create table if not exists public.gastosanuales_servicios_mediciones (
+  id uuid primary key default uuid_generate_v4(),
+  service_id uuid references public.gastosanuales_servicios(id) on delete cascade,
+  period_start date not null,
+  period_end date not null,
+  units_used numeric(12, 2) not null default 0,
+  amount numeric(12, 0) not null default 0,
+  status text not null default 'estimated',
+  notes text,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create index if not exists idx_gastosanuales_servicios_mediciones_service_id
+  on public.gastosanuales_servicios_mediciones (service_id);
+
+create trigger trg_gastosanuales_servicios_mediciones_updated_at
+before update on public.gastosanuales_servicios_mediciones
+for each row
+execute procedure public.update_updated_at_column();
