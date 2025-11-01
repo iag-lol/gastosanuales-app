@@ -29,29 +29,42 @@ export const UtilitiesPage = () => {
 
   const chartData = useMemo(() => {
     if (!measurementHistory || !services.data?.length) {
-      return [] as Array<{ label: string; total: number; [key: string]: string | number }>;
+      return [] as Array<{ label: string; total: number } & Record<string, number>>;
     }
 
-    const monthMap = new Map<string, { label: string; total: number; [key: string]: number }>();
+    type ChartRow = {
+      label: string;
+      total: number;
+      series: Record<string, number>;
+    };
+
+    const monthMap = new Map<string, ChartRow>();
 
     measurementHistory.forEach((measurement) => {
       const date = parseISO(measurement.period_start);
       const key = format(date, "yyyy-MM");
       const label = format(date, "MMM yy", { locale: es });
-      const amount = typeof measurement.amount === "string" ? Number.parseFloat(measurement.amount) : measurement.amount;
+      const amount =
+        typeof measurement.amount === "string"
+          ? Number.parseFloat(measurement.amount)
+          : measurement.amount;
 
       if (!monthMap.has(key)) {
-        monthMap.set(key, { label, total: 0 });
+        monthMap.set(key, { label, total: 0, series: {} });
       }
 
       const entry = monthMap.get(key)!;
       entry.total += amount;
-      entry[measurement.service_id] = (entry[measurement.service_id] || 0) + amount;
+      entry.series[measurement.service_id] = (entry.series[measurement.service_id] || 0) + amount;
     });
 
     return Array.from(monthMap.entries())
       .sort(([a], [b]) => (a > b ? 1 : -1))
-      .map(([, value]) => value);
+      .map(([, value]) => ({
+        label: value.label,
+        total: value.total,
+        ...value.series
+      }));
   }, [measurementHistory, services.data]);
 
   const bootstrapDefaults = async () => {
